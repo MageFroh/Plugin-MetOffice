@@ -20,13 +20,13 @@
             android:value="@string/plugin_package_name" />
         <meta-data
             android:name="de.mm20.launcher2.plugin.author"
-            android:value="MM2-0" />
+            android:value="MageFroh" />
         <meta-data
             android:name="de.mm20.launcher2.plugin.description"
             android:value="@string/plugin_description" />
         <meta-data
             android:name="de.mm20.launcher2.plugin.icon"
-            android:resource="@drawable/ic_owm" />
+            android:resource="@drawable/ic_met_office" />
 
 
         <activity
@@ -40,8 +40,8 @@
         </activity>
 
         <provider
-            android:name=".OpenWeatherMapWeatherProvider"
-            android:authorities="de.mm20.launcher2.plugin.openweathermap.weather"
+            android:name=".MetOfficeWeatherProvider"
+            android:authorities="de.mm20.launcher2.plugin.metoffice.weather"
             android:exported="true"
             android:label="@string/plugin_name">
             <intent-filter>

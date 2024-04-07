@@ -1,10 +1,19 @@
-# Kvaesitso Plugin for OpenWeatherMap
+# Kvaesitso Plugin for the Met Office
 
-This plugin adds OpenWeatherMap as a weather provider to Kvaesitso.
+This plugin adds [the Met Office](https://www.metoffice.gov.uk/) as a weather provider to Kvaesitso.
+
+## API key
+
+A Weather DataHub API key is required to use this plugin.
+
+You can obtain one for free by following [this link](https://datahub.metoffice.gov.uk/).
+The "Site Specific" "Global Spot" free plan should be enough to use this plugin on a single phone.
 
 ## License
 
 This plugin is licensed under the Apache License 2.0.
+
+It is based on the [Kvaesitso Plugin for OpenWeatherMap](https://github.com/Kvaesitso/Plugin-OpenWeatherMap).
 
 ```
 Copyright 2023 MM2-0 and the Kvaesitso contributors

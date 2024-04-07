@@ -1,10 +1,10 @@
-package de.mm20.launcher2.plugin.openweathermap
+package de.mm20.launcher2.plugin.metoffice
 
 import android.content.Context
 import android.util.Log
-import de.mm20.launcher2.plugin.openweathermap.api.OwmForecast
-import de.mm20.launcher2.plugin.openweathermap.api.OwmGeo
-import de.mm20.launcher2.plugin.openweathermap.api.OwmWeather
+import de.mm20.launcher2.plugin.metoffice.api.OwmForecast
+import de.mm20.launcher2.plugin.metoffice.api.OwmGeo
+import de.mm20.launcher2.plugin.metoffice.api.OwmWeather
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.serialization.json.Json
 import java.io.IOException
 
-class OwmApiClient(
+class MetOfficeApiClient(
     private val context: Context
 ) {
 

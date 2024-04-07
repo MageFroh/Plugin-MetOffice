@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Kvaesitso OpenWeatherMap Plugin"
+rootProject.name = "Kvaesitso Met Office Plugin"
 include(":app")
  

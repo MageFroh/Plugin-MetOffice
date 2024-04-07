@@ -1,4 +1,4 @@
-package de.mm20.launcher2.plugin.openweathermap
+package de.mm20.launcher2.plugin.metoffice
 
 import android.os.Build
 import android.os.Bundle
@@ -53,7 +53,7 @@ class SettingsActivity : AppCompatActivity() {
     private var apiKey by mutableStateOf("")
     private var apiKeyState by mutableStateOf<ApiKeyState?>(null)
     private var saving by mutableStateOf(false)
-    private val apiClient = OwmApiClient(this)
+    private val apiClient = MetOfficeApiClient(this)
     private var savedApiKey = apiClient.apiKey
 
     override fun onCreate(savedInstanceState: Bundle?) {

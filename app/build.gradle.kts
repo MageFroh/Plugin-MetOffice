@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "de.mm20.launcher2.plugin.openweathermap"
+    namespace = "de.mm20.launcher2.plugin.metoffice"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "de.mm20.launcher2.plugin.openweathermap"
+        applicationId = "de.mm20.launcher2.plugin.metoffice"
         minSdk = 26
         targetSdk = 34
         versionCode = 2

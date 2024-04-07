@@ -1,11 +1,11 @@
-package de.mm20.launcher2.plugin.openweathermap
+package de.mm20.launcher2.plugin.metoffice
 
 import android.content.Intent
 import android.util.Log
 import de.mm20.launcher2.plugin.config.WeatherPluginConfig
-import de.mm20.launcher2.plugin.openweathermap.api.OwmForecast
-import de.mm20.launcher2.plugin.openweathermap.api.OwmForecastList
-import de.mm20.launcher2.plugin.openweathermap.api.OwmWeather
+import de.mm20.launcher2.plugin.metoffice.api.OwmForecast
+import de.mm20.launcher2.plugin.metoffice.api.OwmForecastList
+import de.mm20.launcher2.plugin.metoffice.api.OwmWeather
 import de.mm20.launcher2.sdk.PluginState
 import de.mm20.launcher2.sdk.weather.Forecast
 import de.mm20.launcher2.sdk.weather.K
@@ -19,14 +19,14 @@ import kotlinx.coroutines.flow.first
 import java.util.Locale
 import kotlin.math.roundToInt
 
-class OpenWeatherMapWeatherProvider : WeatherProvider(
+class MetOfficeWeatherProvider : WeatherProvider(
     WeatherPluginConfig()
 ) {
 
-    private lateinit var apiClient: OwmApiClient
+    private lateinit var apiClient: MetOfficeApiClient
 
     override fun onCreate(): Boolean {
-        apiClient = OwmApiClient(context!!.applicationContext)
+        apiClient = MetOfficeApiClient(context!!.applicationContext)
         return super.onCreate()
     }
 

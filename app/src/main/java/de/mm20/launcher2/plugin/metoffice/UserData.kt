@@ -1,4 +1,4 @@
-package de.mm20.launcher2.plugin.openweathermap
+package de.mm20.launcher2.plugin.metoffice
 
 import android.content.Context
 import androidx.datastore.core.Serializer

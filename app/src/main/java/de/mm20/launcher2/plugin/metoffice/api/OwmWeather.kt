@@ -1,4 +1,4 @@
-package de.mm20.launcher2.plugin.openweathermap.api
+package de.mm20.launcher2.plugin.metoffice.api
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

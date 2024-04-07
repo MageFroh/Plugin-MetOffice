@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Plugin Kvaesitso dla OpenWeatherMap</string>
-    <string name="plugin_package_name">Integracja OpenWeatherMap</string>
-    <string name="plugin_name">OpenWeatherMap</string>
-    <string name="plugin_description">Dodaje OpenWeatherMap jako dostawca danych pogodowych</string>
+    <string name="app_name">Plugin Kvaesitso dla Met Office</string>
+    <string name="plugin_package_name">Integracja Met Office</string>
+    <string name="plugin_name">Met Office</string>
+    <string name="plugin_description">Dodaje Met Office jako dostawca danych pogodowych</string>
 </resources>

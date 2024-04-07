@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Kvaesitso-Plugin für OpenWeatherMap</string>
-    <string name="plugin_package_name">OpenWeatherMap-Integration</string>
-    <string name="plugin_name">OpenWeatherMap</string>
-    <string name="plugin_description">Fügt OpenWeatherMap als Wetterdienst hinzu</string>
-    <string name="plugin_state_setup_required">Fügen Sie einen OpenWeatherMap-API-Key hinzu, um dieses Plugin zu nutzen.</string>
+    <string name="app_name">Kvaesitso-Plugin für Met Office</string>
+    <string name="plugin_package_name">Met Office-Integration</string>
+    <string name="plugin_name">Met Office</string>
+    <string name="plugin_description">Fügt Met Office als Wetterdienst hinzu</string>
+    <string name="plugin_state_setup_required">Fügen Sie einen Met Office-API-Key hinzu, um dieses Plugin zu nutzen.</string>
     <string name="input_api_key">API-Key</string>
     <string name="api_key_save_button">Speichern</string>
     <string name="api_key_state_saved">API-Key wurde erfolgreich gespeichert.</string>

@@ -2,14 +2,14 @@ package de.mm20.launcher2.plugin.metoffice
 
 import android.content.Context
 import android.util.Log
-import de.mm20.launcher2.plugin.metoffice.api.OwmForecast
-import de.mm20.launcher2.plugin.metoffice.api.OwmGeo
-import de.mm20.launcher2.plugin.metoffice.api.OwmWeather
+import de.mm20.launcher2.plugin.metoffice.api.MetForecast
+import de.mm20.launcher2.plugin.metoffice.api.MetGeo
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.get
+import io.ktor.client.request.headers
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.URLProtocol
@@ -34,50 +34,25 @@ class MetOfficeApiClient(
         }
     }
 
-    suspend fun weather(
-        lat: Double,
-        lon: Double,
-        lang: String? = null,
-        appid: String? = null
-    ): OwmWeather {
-        val apiKey = appid ?: apiKey.first() ?: throw IllegalArgumentException("No API key provided")
-        val response = client.get {
-            url {
-                protocol = URLProtocol.HTTPS
-                host = "api.openweathermap.org"
-                path("data", "2.5", "weather")
-                parameters["lat"] = lat.toString()
-                parameters["lon"] = lon.toString()
-                parameters["appid"] = apiKey
-                if (lang != null) parameters["lang"] = lang
-            }
-        }
-        if (response.status == HttpStatusCode.Unauthorized) {
-            throw IllegalArgumentException("Unauthorized. Invalid API key?; body ${response.bodyAsText()}")
-        } else if (response.status != HttpStatusCode.OK) {
-            throw IOException("API error: status ${response.status.value}; body ${response.bodyAsText()}")
-        }
-        return response.body()
-    }
-
     suspend fun forecast(
         lat: Double,
         lon: Double,
-        cnt: Int? = null,
-        lang: String? = null,
         appid: String? = null
-    ): OwmForecast {
+    ): MetForecast {
         val apiKey = appid ?: apiKey.first() ?: throw IllegalArgumentException("No API key provided")
         val response = client.get {
             url {
                 protocol = URLProtocol.HTTPS
-                host = "api.openweathermap.org"
-                path("data", "2.5", "forecast")
-                parameters["lat"] = lat.toString()
-                parameters["lon"] = lon.toString()
-                parameters["appid"] = apiKey
-                if (lang != null) parameters["lang"] = lang
-                if (cnt != null) parameters["cnt"] = cnt.toString()
+                host = "data.hub.api.metoffice.gov.uk"
+                path("sitespecific", "v0", "point", "hourly")
+                parameters["dataSource"] = "BD1"
+                parameters["excludeParameterMetadata"] = "true"
+                parameters["includeLocationName"] = "true"
+                parameters["latitude"] = lat.toString()
+                parameters["longitude"] = lon.toString()
+            }
+            headers {
+                append("apikey", apiKey)
             }
         }
         if (response.status == HttpStatusCode.Unauthorized) {
@@ -91,22 +66,18 @@ class MetOfficeApiClient(
     suspend fun geo(
         q: String,
         limit: Int? = null,
-        appid: String? = null
-    ): Array<OwmGeo> {
-        val apiKey = appid ?: apiKey.first() ?: throw IllegalArgumentException("No API key provided")
+    ): Array<MetGeo> {
         val response = client.get {
             url {
                 protocol = URLProtocol.HTTPS
-                host = "api.openweathermap.org"
-                path("geo", "1.0", "direct")
-                parameters["q"] = q
-                parameters["appid"] = apiKey
-                if (limit != null) parameters["limit"] = limit.toString()
+                host = "www.metoffice.gov.uk"
+                path("plain-rest-services", "location-search")
+                parameters["searchTerm"] = q
+                parameters["filter"] = "exclude-marine-offshore"
+                if (limit != null) parameters["max"] = limit.toString()
             }
         }
-        if (response.status == HttpStatusCode.Unauthorized) {
-            throw IllegalArgumentException("Unauthorized. Invalid API key?; body ${response.bodyAsText()}")
-        } else if (response.status != HttpStatusCode.OK) {
+        if (response.status != HttpStatusCode.OK) {
             throw IOException("API error: status ${response.status.value}; body ${response.bodyAsText()}")
         }
         return response.body()
@@ -119,15 +90,15 @@ class MetOfficeApiClient(
     }
 
     suspend fun testApiKey(apiKey: String): Boolean {
-        return try {
-            weather(
+        try {
+            forecast(
                 lat = 51.5,
                 lon = 0.0,
                 appid = apiKey
             )
             return true
         } catch (e: IllegalArgumentException) {
-            Log.e("OwmApiClient", "Invalid API key", e)
+            Log.e("MetOfficeApiClient", "Invalid API key", e)
             return false
         }
     }

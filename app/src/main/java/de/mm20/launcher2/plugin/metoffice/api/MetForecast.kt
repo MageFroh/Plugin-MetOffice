@@ -37,12 +37,21 @@ data class MetForecastLocation(
 data class MetForecastTimeSeries(
     val time: String?,
     val screenTemperature: Double?,
-    val feelsLikeTemperature: Double?,
+    val maxScreenAirTemp: Double?,
+    val minScreenAirTemp: Double?,
+    val screenDewPointTemperature: Double?, // not used in kvaesitso
+    val feelsLikeTemperature: Double?, // not used in kvaesitso
     val windSpeed10m: Double?,
     val windDirectionFrom10m: Double?,
+    val windGustSpeed10m: Double?, // not used in kvaesitso
+    val max10mWindGust: Double?, // not used in kvaesitso
+    val visibility: Long?, // not used in kvaesitso
     val screenRelativeHumidity: Double?,
-    val mslp: Int?,
+    val mslp: Double?,
+    val uvIndex: Int?, // not used in kvaesitso
     val significantWeatherCode: Int?,
-    val precipitationRate: Double?,
+    val precipitationRate: Double?, // not used in kvaesitso
+    val totalPrecipAmount: Double?,
+    val totalSnowAmount: Double?, // not used in kvaesitso
     val probOfPrecipitation: Int?,
 )

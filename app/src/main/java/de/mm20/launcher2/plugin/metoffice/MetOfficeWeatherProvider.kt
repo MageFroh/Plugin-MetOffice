@@ -12,12 +12,15 @@ import de.mm20.launcher2.sdk.weather.Forecast
 import de.mm20.launcher2.sdk.weather.WeatherIcon
 import de.mm20.launcher2.sdk.weather.WeatherLocation
 import de.mm20.launcher2.sdk.weather.WeatherProvider
+import de.mm20.launcher2.sdk.weather.hPa
+import de.mm20.launcher2.sdk.weather.m_s
+import de.mm20.launcher2.sdk.weather.mm
 import kotlinx.coroutines.flow.first
-import java.time.Instant
 import java.time.OffsetDateTime
+import kotlin.math.roundToInt
 
 class MetOfficeWeatherProvider : WeatherProvider(
-    WeatherPluginConfig()
+    WeatherPluginConfig(300 * 1000L) // 360 calls per day is 240 sec between calls
 ) {
 
     private lateinit var apiClient: MetOfficeApiClient
@@ -98,14 +101,72 @@ class MetOfficeWeatherProvider : WeatherProvider(
 
     private fun metToForecast(weather: MetForecastTimeSeries, location: String, coordinates: MetForecastGeometry): Forecast? {
         val context = context ?: return null
+        val pressure = if (weather.mslp != null) {
+            weather.mslp.toDouble() / 100
+        } else {
+            null
+        }
+        val condition = metToCondition(weather.significantWeatherCode)
         return Forecast(
             timestamp = OffsetDateTime.parse(weather.time ?: return null).toInstant().toEpochMilli(),
-            condition = "",
-            icon = WeatherIcon.Unknown,
+            temperature = weather.screenTemperature?.C ?: return null,
+            condition = "", //todo
+            icon = condition.icon,
+            night = condition.night,
+            minTemp = weather.minScreenAirTemp?.C,
+            maxTemp = weather.maxScreenAirTemp?.C,
+            pressure = pressure?.hPa,
+            humidity = weather.screenRelativeHumidity?.roundToInt(),
+            windSpeed = weather.windSpeed10m?.m_s,
+            windDirection = weather.windDirectionFrom10m,
+            precipitation = weather.totalPrecipAmount?.mm,
+            rainProbability = weather.probOfPrecipitation,
+            clouds = null, // Not in Met API
             location = location,
             provider = context.getString(R.string.plugin_name),
-            temperature = weather.screenTemperature?.C ?: return null
+            providerUrl = null, //todo
         )
+    }
+
+    data class WeatherCondition(val icon: WeatherIcon, val night: Boolean = false)
+
+    private fun metToCondition(id: Int?): WeatherCondition {
+        // https://www.metoffice.gov.uk/services/data/datapoint/code-definitions
+        return when (id) {
+            null -> WeatherCondition(WeatherIcon.Unknown)
+            -1 -> WeatherCondition(WeatherIcon.Drizzle) // Trace rain
+            0 -> WeatherCondition(WeatherIcon.Clear, true)
+            1 -> WeatherCondition(WeatherIcon.Clear, false)
+            2 -> WeatherCondition(WeatherIcon.PartlyCloudy, true)
+            3 -> WeatherCondition(WeatherIcon.PartlyCloudy, false)
+            5 -> WeatherCondition(WeatherIcon.Haze)
+            6 -> WeatherCondition(WeatherIcon.Fog)
+            7 -> WeatherCondition(WeatherIcon.Cloudy)
+            8 -> WeatherCondition(WeatherIcon.MostlyCloudy)
+            9 -> WeatherCondition(WeatherIcon.Showers, true)
+            10 -> WeatherCondition(WeatherIcon.Showers, false)
+            11 -> WeatherCondition(WeatherIcon.Drizzle)
+            12 -> WeatherCondition(WeatherIcon.Showers)
+            13 -> WeatherCondition(WeatherIcon.Storm, true)
+            14 -> WeatherCondition(WeatherIcon.Storm, false)
+            15 -> WeatherCondition(WeatherIcon.Storm)
+            16 -> WeatherCondition(WeatherIcon.Sleet, true)
+            17 -> WeatherCondition(WeatherIcon.Sleet, false)
+            18 -> WeatherCondition(WeatherIcon.Sleet)
+            19 -> WeatherCondition(WeatherIcon.Hail, true)
+            20 -> WeatherCondition(WeatherIcon.Hail, false)
+            21 -> WeatherCondition(WeatherIcon.Hail)
+            22 -> WeatherCondition(WeatherIcon.Snow, true)
+            23 -> WeatherCondition(WeatherIcon.Snow, false)
+            24 -> WeatherCondition(WeatherIcon.Snow)
+            25 -> WeatherCondition(WeatherIcon.Snow, true)
+            26 -> WeatherCondition(WeatherIcon.Snow, false)
+            27 -> WeatherCondition(WeatherIcon.Snow)
+            28 -> WeatherCondition(WeatherIcon.ThunderstormWithRain, true)
+            29 -> WeatherCondition(WeatherIcon.ThunderstormWithRain, false)
+            30 -> WeatherCondition(WeatherIcon.Thunderstorm)
+            else -> WeatherCondition(WeatherIcon.Unknown)
+        }
     }
 
     override suspend fun findLocations(query: String, lang: String): List<WeatherLocation> {
@@ -132,5 +193,4 @@ class MetOfficeWeatherProvider : WeatherProvider(
         )
         return PluginState.Ready()
     }
-
 }

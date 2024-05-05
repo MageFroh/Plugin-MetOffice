@@ -13,6 +13,7 @@ import de.mm20.launcher2.plugin.metoffice.api.MetWeatherCode
 import de.mm20.launcher2.sdk.PluginState
 import de.mm20.launcher2.sdk.weather.C
 import de.mm20.launcher2.sdk.weather.Forecast
+import de.mm20.launcher2.sdk.weather.Temperature
 import de.mm20.launcher2.sdk.weather.WeatherIcon
 import de.mm20.launcher2.sdk.weather.WeatherLocation
 import de.mm20.launcher2.sdk.weather.WeatherProvider
@@ -25,7 +26,7 @@ import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 class MetOfficeWeatherProvider : WeatherProvider(
-    WeatherPluginConfig(300 * 1000L) // 360 calls per day is 240 sec between calls
+    WeatherPluginConfig(500 * 1000L) // 360 calls per day is 240 sec between calls, but we do 2 calls per request
 ) {
 
     private lateinit var apiClient: MetOfficeApiClient
@@ -59,9 +60,36 @@ class MetOfficeWeatherProvider : WeatherProvider(
         lon: Double,
         locationName: String?
     ): List<Forecast>? {
+        val forecast = getWeatherDataInternal(lat, lon, locationName, MetOfficeApiClient.MetForecastType.HOURLY)
+        val threeHourlyForecast = getWeatherDataInternal(lat, lon, locationName, MetOfficeApiClient.MetForecastType.THREE_HOURLY)
+
+        if (forecast.isNullOrEmpty()) {
+            Log.w("MetOfficeWeatherProvider", "No hourly forecast available")
+            return threeHourlyForecast
+        }
+        if (threeHourlyForecast.isNullOrEmpty()) {
+            Log.w("MetOfficeWeatherProvider", "No 3-hourly forecast available")
+            return forecast
+        }
+
+        val lastHourlyForecast = forecast.last().timestamp
+        threeHourlyForecast.stream()
+            .filter { it.timestamp >= lastHourlyForecast + 3600 }
+            .forEach { forecast.add(it) }
+        Log.d("MetOfficeWeatherProvider", "${forecast.size} entries returned in total")
+        return forecast
+    }
+
+    private suspend fun getWeatherDataInternal(
+        lat: Double,
+        lon: Double,
+        locationName: String?,
+        type: MetOfficeApiClient.MetForecastType
+    ): MutableList<Forecast>? {
+        Log.i("MetOfficeWeatherProvider", "Fetching $type forecast for $lat, $lon")
         val forecastList = mutableListOf<Forecast>()
 
-        val forecast: MetForecast = apiClient.forecast(lat, lon)
+        val forecast: MetForecast = apiClient.forecast(lat, lon, forecastType = type)
 
         if (forecast.features.isNullOrEmpty()) {
             Log.e("MetOfficeWeatherProvider", "Forecast response has no features")
@@ -101,6 +129,7 @@ class MetOfficeWeatherProvider : WeatherProvider(
             ) ?: continue
         }
 
+        Log.d("MetOfficeWeatherProvider", "${forecastList.size} entries fetched")
         return forecastList
     }
 
@@ -111,10 +140,22 @@ class MetOfficeWeatherProvider : WeatherProvider(
         } else {
             null
         }
+
         val condition = metToCondition(weather.significantWeatherCode)
+
+        val temperature: Temperature? = if (weather.screenTemperature != null) {
+            weather.screenTemperature.C
+        } else if (weather.maxScreenAirTemp != null && weather.minScreenAirTemp != null) {
+            ((weather.maxScreenAirTemp + weather.minScreenAirTemp) / 2).C
+        } else {
+            null
+        }
+
+        Log.d("MetOfficeWeatherProvider", "${weather.time}: ${condition.text}, $temperature")
+
         return Forecast(
             timestamp = OffsetDateTime.parse(weather.time ?: return null).toInstant().toEpochMilli(),
-            temperature = weather.screenTemperature?.C ?: return null,
+            temperature = temperature ?: return null,
             condition = condition.text,
             icon = condition.icon,
             night = condition.night,

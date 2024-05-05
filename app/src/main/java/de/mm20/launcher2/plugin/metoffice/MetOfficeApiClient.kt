@@ -36,17 +36,29 @@ class MetOfficeApiClient(
         }
     }
 
+    enum class MetForecastType {
+        HOURLY,
+        THREE_HOURLY,
+        DAILY
+    }
+
     suspend fun forecast(
         lat: Double,
         lon: Double,
+        forecastType: MetForecastType = MetForecastType.HOURLY,
         appid: String? = null
     ): MetForecast {
         val apiKey = appid ?: apiKey.first() ?: throw IllegalArgumentException("No API key provided")
+        val endpoint = when (forecastType) {
+            MetForecastType.HOURLY -> "hourly"
+            MetForecastType.THREE_HOURLY -> "three-hourly"
+            MetForecastType.DAILY -> "daily"
+        }
         val response = client.get {
             url {
                 protocol = URLProtocol.HTTPS
                 host = "data.hub.api.metoffice.gov.uk"
-                path("sitespecific", "v0", "point", "hourly")
+                path("sitespecific", "v0", "point", endpoint)
                 parameters["dataSource"] = "BD1"
                 parameters["excludeParameterMetadata"] = "true"
                 parameters["includeLocationName"] = "true"

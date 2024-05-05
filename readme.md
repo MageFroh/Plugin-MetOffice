@@ -1,6 +1,6 @@
 # Kvaesitso Plugin for the Met Office
 
-This plugin adds [the Met Office](https://www.metoffice.gov.uk/) as a weather provider to Kvaesitso.
+This plugin adds [the Met Office](https://www.metoffice.gov.uk/) as a weather provider to [Kvaesitso](https://github.com/MM2-0/Kvaesitso).
 
 ## API key
 
@@ -17,6 +17,7 @@ It is based on the [Kvaesitso Plugin for OpenWeatherMap](https://github.com/Kvae
 
 ```
 Copyright 2023 MM2-0 and the Kvaesitso contributors
+Copyright 2024 MageFroh and the Kvaesitso contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

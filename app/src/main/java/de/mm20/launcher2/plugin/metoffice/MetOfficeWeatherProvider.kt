@@ -2,6 +2,9 @@ package de.mm20.launcher2.plugin.metoffice
 
 import android.content.Intent
 import android.util.Log
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toLowerCase
+import com.fonfon.kgeohash.GeoHash
 import de.mm20.launcher2.plugin.config.WeatherPluginConfig
 import de.mm20.launcher2.plugin.metoffice.api.MetForecast
 import de.mm20.launcher2.plugin.metoffice.api.MetForecastGeometry
@@ -18,6 +21,7 @@ import de.mm20.launcher2.sdk.weather.m_s
 import de.mm20.launcher2.sdk.weather.mm
 import kotlinx.coroutines.flow.first
 import java.time.OffsetDateTime
+import kotlin.math.ceil
 import kotlin.math.roundToInt
 
 class MetOfficeWeatherProvider : WeatherProvider(
@@ -100,7 +104,7 @@ class MetOfficeWeatherProvider : WeatherProvider(
         return forecastList
     }
 
-    private fun metToForecast(weather: MetForecastTimeSeries, location: String, coordinates: MetForecastGeometry): Forecast? {
+    private fun metToForecast(weather: MetForecastTimeSeries, location: String, geometry: MetForecastGeometry): Forecast? {
         val context = context ?: return null
         val pressure = if (weather.mslp != null) {
             weather.mslp.toDouble() / 100
@@ -111,7 +115,7 @@ class MetOfficeWeatherProvider : WeatherProvider(
         return Forecast(
             timestamp = OffsetDateTime.parse(weather.time ?: return null).toInstant().toEpochMilli(),
             temperature = weather.screenTemperature?.C ?: return null,
-            condition = "", //todo
+            condition = condition.text,
             icon = condition.icon,
             night = condition.night,
             minTemp = weather.minScreenAirTemp?.C,
@@ -121,52 +125,61 @@ class MetOfficeWeatherProvider : WeatherProvider(
             windSpeed = weather.windSpeed10m?.m_s,
             windDirection = weather.windDirectionFrom10m,
             precipitation = weather.totalPrecipAmount?.mm,
-            rainProbability = weather.probOfPrecipitation,
+            rainProbability = weather.probOfPrecipitation?.let { (ceil(weather.probOfPrecipitation / 10.0) * 10).toInt() },
             clouds = null, // Not in Met API
             location = location,
             provider = context.getString(R.string.plugin_name),
-            providerUrl = null, //todo
+            providerUrl = metGeometryToMetUrl(geometry),
         )
     }
 
-    data class WeatherCondition(val icon: WeatherIcon, val night: Boolean = false)
+    data class WeatherCondition(val text: String, val icon: WeatherIcon, val night: Boolean = false)
 
     private fun metToCondition(code: MetWeatherCode?): WeatherCondition {
+        val text = code?.name?.replace("_", " ")?.toLowerCase(Locale.current) ?: "Unknown"
         return when (code) {
-            null -> WeatherCondition(WeatherIcon.Unknown)
-            MetWeatherCode.TRACE_RAIN -> WeatherCondition(WeatherIcon.Drizzle)
-            MetWeatherCode.CLEAR_NIGHT -> WeatherCondition(WeatherIcon.Clear, true)
-            MetWeatherCode.SUNNY_DAY -> WeatherCondition(WeatherIcon.Clear, false)
-            MetWeatherCode.PARTLY_CLOUDY_NIGHT -> WeatherCondition(WeatherIcon.PartlyCloudy, true)
-            MetWeatherCode.PARTLY_CLOUDY_DAY -> WeatherCondition(WeatherIcon.PartlyCloudy, false)
-            MetWeatherCode.MIST -> WeatherCondition(WeatherIcon.Haze)
-            MetWeatherCode.FOG -> WeatherCondition(WeatherIcon.Fog)
-            MetWeatherCode.CLOUDY -> WeatherCondition(WeatherIcon.Cloudy)
-            MetWeatherCode.OVERCAST -> WeatherCondition(WeatherIcon.MostlyCloudy)
-            MetWeatherCode.LIGHT_RAIN_SHOWER_NIGHT -> WeatherCondition(WeatherIcon.Showers, true)
-            MetWeatherCode.LIGHT_RAIN_SHOWER_DAY -> WeatherCondition(WeatherIcon.Showers, false)
-            MetWeatherCode.DRIZZLE -> WeatherCondition(WeatherIcon.Drizzle)
-            MetWeatherCode.LIGHT_RAIN -> WeatherCondition(WeatherIcon.Showers)
-            MetWeatherCode.HEAVY_RAIN_SHOWER_NIGHT -> WeatherCondition(WeatherIcon.Storm, true)
-            MetWeatherCode.HEAVY_RAIN_SHOWER_DAY -> WeatherCondition(WeatherIcon.Storm, false)
-            MetWeatherCode.HEAVY_RAIN -> WeatherCondition(WeatherIcon.Storm)
-            MetWeatherCode.SLEET_SHOWER_NIGHT -> WeatherCondition(WeatherIcon.Sleet, true)
-            MetWeatherCode.SLEET_SHOWER_DAY -> WeatherCondition(WeatherIcon.Sleet, false)
-            MetWeatherCode.SLEET -> WeatherCondition(WeatherIcon.Sleet)
-            MetWeatherCode.HAIL_SHOWER_NIGHT -> WeatherCondition(WeatherIcon.Hail, true)
-            MetWeatherCode.HAIL_SHOWER_DAY -> WeatherCondition(WeatherIcon.Hail, false)
-            MetWeatherCode.HAIL -> WeatherCondition(WeatherIcon.Hail)
-            MetWeatherCode.LIGHT_SNOW_SHOWER_NIGHT -> WeatherCondition(WeatherIcon.Snow, true)
-            MetWeatherCode.LIGHT_SNOW_SHOWER_DAY -> WeatherCondition(WeatherIcon.Snow, false)
-            MetWeatherCode.LIGHT_SNOW -> WeatherCondition(WeatherIcon.Snow)
-            MetWeatherCode.HEAVY_SNOW_SHOWER_NIGHT -> WeatherCondition(WeatherIcon.Snow, true)
-            MetWeatherCode.HEAVY_SNOW_SHOWER_DAY -> WeatherCondition(WeatherIcon.Snow, false)
-            MetWeatherCode.HEAVY_SNOW -> WeatherCondition(WeatherIcon.Snow)
-            MetWeatherCode.THUNDER_SHOWER_NIGHT -> WeatherCondition(WeatherIcon.ThunderstormWithRain, true)
-            MetWeatherCode.THUNDER_SHOWER_DAY -> WeatherCondition(WeatherIcon.ThunderstormWithRain, false)
-            MetWeatherCode.THUNDER -> WeatherCondition(WeatherIcon.Thunderstorm)
+            null -> WeatherCondition(text, WeatherIcon.Unknown)
+            MetWeatherCode.TRACE_RAIN -> WeatherCondition(text, WeatherIcon.Drizzle)
+            MetWeatherCode.CLEAR_NIGHT -> WeatherCondition(text, WeatherIcon.Clear, true)
+            MetWeatherCode.SUNNY_DAY -> WeatherCondition(text, WeatherIcon.Clear, false)
+            MetWeatherCode.PARTLY_CLOUDY_NIGHT -> WeatherCondition(text, WeatherIcon.PartlyCloudy, true)
+            MetWeatherCode.PARTLY_CLOUDY_DAY -> WeatherCondition(text, WeatherIcon.PartlyCloudy, false)
+            MetWeatherCode.MIST -> WeatherCondition(text, WeatherIcon.Haze)
+            MetWeatherCode.FOG -> WeatherCondition(text, WeatherIcon.Fog)
+            MetWeatherCode.CLOUDY -> WeatherCondition(text, WeatherIcon.MostlyCloudy)
+            MetWeatherCode.OVERCAST -> WeatherCondition(text, WeatherIcon.Cloudy)
+            MetWeatherCode.LIGHT_RAIN_SHOWER_NIGHT -> WeatherCondition(text, WeatherIcon.Showers, true)
+            MetWeatherCode.LIGHT_RAIN_SHOWER_DAY -> WeatherCondition(text, WeatherIcon.Showers, false)
+            MetWeatherCode.DRIZZLE -> WeatherCondition(text, WeatherIcon.Drizzle)
+            MetWeatherCode.LIGHT_RAIN -> WeatherCondition(text, WeatherIcon.Showers)
+            MetWeatherCode.HEAVY_RAIN_SHOWER_NIGHT -> WeatherCondition(text, WeatherIcon.Showers, true)
+            MetWeatherCode.HEAVY_RAIN_SHOWER_DAY -> WeatherCondition(text, WeatherIcon.Showers, false)
+            MetWeatherCode.HEAVY_RAIN -> WeatherCondition(text, WeatherIcon.Showers)
+            MetWeatherCode.SLEET_SHOWER_NIGHT -> WeatherCondition(text, WeatherIcon.Sleet, true)
+            MetWeatherCode.SLEET_SHOWER_DAY -> WeatherCondition(text, WeatherIcon.Sleet, false)
+            MetWeatherCode.SLEET -> WeatherCondition(text, WeatherIcon.Sleet)
+            MetWeatherCode.HAIL_SHOWER_NIGHT -> WeatherCondition(text, WeatherIcon.Hail, true)
+            MetWeatherCode.HAIL_SHOWER_DAY -> WeatherCondition(text, WeatherIcon.Hail, false)
+            MetWeatherCode.HAIL -> WeatherCondition(text, WeatherIcon.Hail)
+            MetWeatherCode.LIGHT_SNOW_SHOWER_NIGHT -> WeatherCondition(text, WeatherIcon.Snow, true)
+            MetWeatherCode.LIGHT_SNOW_SHOWER_DAY -> WeatherCondition(text, WeatherIcon.Snow, false)
+            MetWeatherCode.LIGHT_SNOW -> WeatherCondition(text, WeatherIcon.Snow)
+            MetWeatherCode.HEAVY_SNOW_SHOWER_NIGHT -> WeatherCondition(text, WeatherIcon.Snow, true)
+            MetWeatherCode.HEAVY_SNOW_SHOWER_DAY -> WeatherCondition(text, WeatherIcon.Snow, false)
+            MetWeatherCode.HEAVY_SNOW -> WeatherCondition(text, WeatherIcon.Snow)
+            MetWeatherCode.THUNDER_SHOWER_NIGHT -> WeatherCondition(text, WeatherIcon.ThunderstormWithRain, true)
+            MetWeatherCode.THUNDER_SHOWER_DAY -> WeatherCondition(text, WeatherIcon.ThunderstormWithRain, false)
+            MetWeatherCode.THUNDER -> WeatherCondition(text, WeatherIcon.Thunderstorm)
         }
     }
+
+    private fun metGeometryToMetUrl(geometry: MetForecastGeometry): String? {
+        if (geometry.coordinates == null) return null
+        if (geometry.coordinates.size < 2) return null
+        val geoHash = GeoHash(geometry.coordinates[1], geometry.coordinates[0])
+        return "https://www.metoffice.gov.uk/weather/forecast/${geoHash}"
+    }
+
     override suspend fun findLocations(query: String, lang: String): List<WeatherLocation> {
         val geo = apiClient.geo(q = query, limit = 5)
 

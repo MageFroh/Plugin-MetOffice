@@ -15,12 +15,14 @@ composeCompiler = "1.5.9"
 composeMaterial3 = "1.2.0"
 
 launcherSdk = "1.1.1"
+geohash = "1.0"
 
 ktor = "2.3.7"
 
 
 [libraries]
 launchersdk = { group = "de.mm20.launcher2", name = "plugin-sdk", version.ref = "launcherSdk" }
+android-kotlin-geohash = { group = "com.github.drfonfon", name = "android-kotlin-geohash", version.ref = "geohash" }
 
 kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 

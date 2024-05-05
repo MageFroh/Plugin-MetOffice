@@ -46,7 +46,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activitycompose)
@@ -55,6 +54,7 @@ dependencies {
     implementation(libs.androidx.lifecycle.compose)
     implementation(libs.androidx.datastore)
     implementation(libs.launchersdk)
+    implementation(libs.android.kotlin.geohash)
     implementation(libs.kotlin.serialization)
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.okhttp)

@@ -18,6 +18,7 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import java.io.IOException
 
@@ -25,6 +26,7 @@ class MetOfficeApiClient(
     private val context: Context
 ) {
 
+    @OptIn(ExperimentalSerializationApi::class)
     private val client = HttpClient(OkHttp) {
         install(ContentNegotiation) {
             json(Json {

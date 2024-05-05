@@ -3,6 +3,7 @@ package de.mm20.launcher2.plugin.metoffice
 import android.content.Context
 import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
@@ -17,6 +18,7 @@ data class UserData(
 
 val Context.dataStore by dataStore("userdata.json", UserDataSerializer)
 
+@OptIn(ExperimentalSerializationApi::class)
 object UserDataSerializer: Serializer<UserData> {
     override val defaultValue: UserData = UserData()
 

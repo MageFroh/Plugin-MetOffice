@@ -21,7 +21,9 @@ import de.mm20.launcher2.sdk.weather.hPa
 import de.mm20.launcher2.sdk.weather.m_s
 import de.mm20.launcher2.sdk.weather.mm
 import kotlinx.coroutines.flow.first
+import java.time.Instant
 import java.time.OffsetDateTime
+import java.time.temporal.ChronoUnit
 import kotlin.math.ceil
 import kotlin.math.roundToInt
 
@@ -121,12 +123,17 @@ class MetOfficeWeatherProvider : WeatherProvider(
             return null
         }
 
+        val minTimestamp = Instant.now().minus(1, ChronoUnit.HOURS).toEpochMilli()
         for (time in timeSeries) {
-            forecastList += metToForecast(
+            val newForecast = metToForecast(
                 time,
                 loc,
                 feature.geometry
             ) ?: continue
+
+            if (newForecast.timestamp > minTimestamp) {
+                forecastList += newForecast
+            }
         }
 
         Log.d("MetOfficeWeatherProvider", "${forecastList.size} entries fetched")

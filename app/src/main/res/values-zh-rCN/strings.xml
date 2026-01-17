@@ -3,11 +3,11 @@
     <string name="setup_step_n">步骤 %1$d</string>
     <string name="instruction_register">在 %1$s 注册来获取 API 密钥：</string>
     <string name="instruction_enter_key">在下方粘贴 API 密钥：</string>
-    <string name="app_name">Kvaesitso OpenWeatherMap 插件</string>
-    <string name="plugin_package_name">OpenWeatherMap 集成</string>
-    <string name="plugin_name">OpenWeatherMap</string>
-    <string name="plugin_description">设 OpenWeatherMap 为天气数据源</string>
-    <string name="plugin_state_setup_required">请添加一个 OpenWeatherMap 的 API 密钥来使用此插件。</string>
+    <string name="app_name">Kvaesitso Met Office 插件</string>
+    <string name="plugin_package_name">Met Office 集成</string>
+    <string name="plugin_name">Met Office</string>
+    <string name="plugin_description">设 Met Office 为天气数据源</string>
+    <string name="plugin_state_setup_required">请添加一个 Met Office 的 API 密钥来使用此插件。</string>
     <string name="input_api_key">API 密钥</string>
     <string name="api_key_save_button">保存</string>
     <string name="api_key_state_saved">API 密钥更新成功.</string>

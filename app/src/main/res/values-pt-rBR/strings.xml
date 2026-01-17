@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Plugin do Kvaesitso para o OpenWeatherMap</string>
-    <string name="plugin_name">OpenWeatherMap</string>
-    <string name="plugin_state_setup_required">Adicione uma chave API do OpenWeatherMap para utilizar esse plugin.</string>
+    <string name="app_name">Plugin do Kvaesitso para o Met Office</string>
+    <string name="plugin_name">Met Office</string>
+    <string name="plugin_state_setup_required">Adicione uma chave API do Met Office para utilizar esse plugin.</string>
     <string name="input_api_key">Chave API</string>
     <string name="api_key_save_button">Salvar</string>
     <string name="api_key_state_saved">A chave API foi atualizada com sucesso.</string>
@@ -11,7 +11,7 @@
     <string name="instruction_register">Registre-se em %1$s para conseguir uma chave API:</string>
     <string name="instruction_enter_key">Cole a chave API abaixo:</string>
     <string name="api_key_state_invalid">A chave API fornecida não é válida.</string>
-    <string name="plugin_description">Adiciona o OpenWeatherMap como o provedor de clima</string>
-    <string name="plugin_package_name">Integração ao OpenWeatherMap</string>
+    <string name="plugin_description">Adiciona o Met Office como o provedor de clima</string>
+    <string name="plugin_package_name">Integração ao Met Office</string>
     <string name="note_api_key">Por favor note que pode levar até 2 horas para sua chave ser ativada.</string>
 </resources>

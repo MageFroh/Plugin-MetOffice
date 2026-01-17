@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Plugin Kvaesitso pentru OpenWeatherMap</string>
-    <string name="plugin_package_name">Integrare OpenWeatherMap</string>
-    <string name="plugin_name">OpenWeatherMap</string>
-    <string name="plugin_description">Adaugă OpenWeatherMap ca un furnizor de vreme</string>
-    <string name="plugin_state_setup_required">Adăugați o cheie API OpenWeatherMap pentru a utiliza acest plugin.</string>
+    <string name="app_name">Plugin Kvaesitso pentru Met Office</string>
+    <string name="plugin_package_name">Integrare Met Office</string>
+    <string name="plugin_name">Met Office</string>
+    <string name="plugin_description">Adaugă Met Office ca un furnizor de vreme</string>
+    <string name="plugin_state_setup_required">Adăugați o cheie API Met Office pentru a utiliza acest plugin.</string>
     <string name="input_api_key">Cheie API</string>
     <string name="api_key_save_button">Salvați</string>
     <string name="api_key_state_saved">Cheia API a fost actualizată cu succes.</string>

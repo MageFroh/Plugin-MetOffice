@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OpenWeatherMap için Kvaesitso Eklentisi</string>
-    <string name="plugin_package_name">OpenWeatherMap entegrasyonu</string>
-    <string name="plugin_name">OpenWeatherMap</string>
-    <string name="plugin_description">OpenWeatherMap\'i hava durumu sağlayıcısı olarak ekler</string>
-    <string name="plugin_state_setup_required">Bu eklentiyi kullanabilmek için bir OpenWeatherMap API anahtarı ekleyin.</string>
+    <string name="app_name">Met Office için Kvaesitso Eklentisi</string>
+    <string name="plugin_package_name">Met Office entegrasyonu</string>
+    <string name="plugin_name">Met Office</string>
+    <string name="plugin_description">Met Office\'i hava durumu sağlayıcısı olarak ekler</string>
+    <string name="plugin_state_setup_required">Bu eklentiyi kullanabilmek için bir Met Office API anahtarı ekleyin.</string>
     <string name="input_api_key">API anahtarı</string>
     <string name="api_key_save_button">Kaydet</string>
     <string name="api_key_state_invalid">Girdiğiniz API anahtarı geçersiz.</string>

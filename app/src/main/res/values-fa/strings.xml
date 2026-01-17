@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">افزونه Kvaesitso برای OpenWeatherMap</string>
+    <string name="app_name">افزونه Kvaesitso برای Met Office</string>
     <string name="plugin_package_name">بکپارچگی نقشه آب و هوا آزاد</string>
-    <string name="plugin_name">نقشه آب و هوا آزاد(OpenWeatherMap)</string>
+    <string name="plugin_name">نقشه آب و هوا آزاد(Met Office)</string>
     <string name="plugin_description">نقشه آب و هوا آزاد را در جایگاه ارائه دهنده آب و هوا می‌افزاید</string>
-    <string name="plugin_state_setup_required">یک کلید OpenWeatherMap API برای به‌کارگیری این افزونه بیفزایید.</string>
+    <string name="plugin_state_setup_required">یک کلید Met Office API برای به‌کارگیری این افزونه بیفزایید.</string>
     <string name="input_api_key">کلید API</string>
     <string name="api_key_save_button">نگه‌داری</string>
     <string name="api_key_state_saved">کلید API با موفقیت به‌روزرسانی شد.</string>

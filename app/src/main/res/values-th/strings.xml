@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ปลั๊กอิน Kvaesitso สำหรับ OpenWeatherMap</string>
-    <string name="plugin_package_name">ตัวเชื่อมต่อกับ OpenWeatherMap</string>
-    <string name="plugin_name">OpenWeatherMap</string>
-    <string name="plugin_description">เพิ่มข้อมูลสภาพอากาศจาก OpenWeatherMap</string>
-    <string name="plugin_state_setup_required">ระบุ API key ของ OpenWeatherMap เพื่อใช้ปลั๊กอินนี้</string>
+    <string name="app_name">ปลั๊กอิน Kvaesitso สำหรับ Met Office</string>
+    <string name="plugin_package_name">ตัวเชื่อมต่อกับ Met Office</string>
+    <string name="plugin_name">Met Office</string>
+    <string name="plugin_description">เพิ่มข้อมูลสภาพอากาศจาก Met Office</string>
+    <string name="plugin_state_setup_required">ระบุ API key ของ Met Office เพื่อใช้ปลั๊กอินนี้</string>
     <string name="input_api_key">API key</string>
     <string name="api_key_save_button">บันทึก</string>
     <string name="api_key_state_saved">อัพเดต API key เรียบร้อยแล้ว</string>

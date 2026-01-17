@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="plugin_package_name">OpenWeatherMap integracija</string>
-    <string name="plugin_name">OpenWeatherMap</string>
-    <string name="plugin_description">Prideda OpenWeatherMap kaip oro duomenų tiekėją</string>
-    <string name="app_name">Kvaesito priedas skirtas OpenWeatherMap</string>
+    <string name="plugin_package_name">Met Office integracija</string>
+    <string name="plugin_name">Met Office</string>
+    <string name="plugin_description">Prideda Met Office kaip oro duomenų tiekėją</string>
+    <string name="app_name">Kvaesito priedas skirtas Met Office</string>
 </resources>

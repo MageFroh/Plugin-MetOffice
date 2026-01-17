@@ -14,12 +14,12 @@ import de.mm20.launcher2.sdk.PluginState
 import de.mm20.launcher2.sdk.weather.C
 import de.mm20.launcher2.sdk.weather.Forecast
 import de.mm20.launcher2.sdk.weather.Temperature
-import de.mm20.launcher2.sdk.weather.WeatherIcon
 import de.mm20.launcher2.sdk.weather.WeatherLocation
 import de.mm20.launcher2.sdk.weather.WeatherProvider
 import de.mm20.launcher2.sdk.weather.hPa
 import de.mm20.launcher2.sdk.weather.m_s
 import de.mm20.launcher2.sdk.weather.mm
+import de.mm20.launcher2.weather.WeatherIcon
 import kotlinx.coroutines.flow.first
 import java.time.Instant
 import java.time.OffsetDateTime

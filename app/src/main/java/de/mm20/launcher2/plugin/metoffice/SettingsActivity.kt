@@ -107,12 +107,12 @@ class SettingsActivity : AppCompatActivity() {
                                 style = MaterialTheme.typography.titleLarge
                             )
                             Text(
-                                stringResource(R.string.instruction_register, "OpenWeatherMap"),
+                                stringResource(R.string.instruction_register, "Met Office"),
                                 style = MaterialTheme.typography.bodyMedium,
                                 modifier = Modifier.padding(top = 8.dp)
                             )
                             Text(
-                                "https://home.openweathermap.org/api_keys",
+                                "https://datahub.metoffice.gov.uk/",
                                 style = MaterialTheme.typography.bodyMedium,
                                 textDecoration = TextDecoration.Underline,
                                 color = MaterialTheme.colorScheme.primary,
@@ -121,7 +121,7 @@ class SettingsActivity : AppCompatActivity() {
                                     .clickable {
                                         startActivity(Intent(Intent.ACTION_VIEW).apply {
                                             data =
-                                                "https://home.openweathermap.org/api_keys".toUri()
+                                                "https://datahub.metoffice.gov.uk/".toUri()
                                         })
                                     }
                             )

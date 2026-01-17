@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="api_key_state_error">Ocorreu um erro. Verifique a sua ligação de rede.</string>
-    <string name="plugin_state_setup_required">Adicione a chave da API Met Office para poder utilizar este plugin.</string>
+    <string name="plugin_state_setup_required">Adicione a chave da API Met Office para utilizar este plugin.</string>
     <string name="plugin_package_name">Integração Met Office</string>
-    <string name="app_name">Plugin Kvaesitso para Met Office</string>
+    <string name="app_name">Plugin Met Office para Kvaesitso</string>
     <string name="plugin_name">Met Office</string>
     <string name="plugin_description">Adicionar Met Office como serviço de meteorologia</string>
     <string name="input_api_key">Chave API</string>
     <string name="api_key_save_button">Guardar</string>
     <string name="api_key_state_saved">A chave API foi atualizada com sucesso.</string>
     <string name="api_key_state_invalid">A chave API indicada não é valida.</string>
+    <string name="setup_step_n">Passo %1$d</string>
+    <string name="instruction_register">Registe-se em %1$s para obter uma chave API:</string>
+    <string name="instruction_enter_key">Cole a chave API aqui:</string>
+    <string name="note_api_key">Tenha em atenção de que pode levar até 2 horas para a sua chave ficar ativa.</string>
 </resources>

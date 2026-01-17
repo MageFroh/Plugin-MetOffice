@@ -2,12 +2,16 @@
 <resources>
     <string name="plugin_package_name">Met Office integráció</string>
     <string name="plugin_name">Met Office</string>
-    <string name="plugin_state_setup_required">Adj hozzá egy Met Office API-kulcsot a bővítmény használatához.</string>
+    <string name="plugin_state_setup_required">Adjon hozzá egy Met Office API-kulcsot a bővítmény használatához.</string>
     <string name="input_api_key">API kulcs</string>
     <string name="api_key_save_button">Mentés</string>
     <string name="api_key_state_saved">Az API-kulcs sikeresen frissült.</string>
     <string name="api_key_state_invalid">A megadott API-kulcs nem érvényes.</string>
-    <string name="app_name">Kvaesitso bővítmény az Met Office-hez</string>
-    <string name="plugin_description">Met Office hozzáadása, mint időjárás-előrejelzés szolgáltató</string>
+    <string name="app_name">Kvaesitso bővítmény az Met Officehez</string>
+    <string name="plugin_description">Met Office hozzáadása, mint időjáráselőrejelzési szolgáltató</string>
     <string name="api_key_state_error">Hiba történt, kérjük, ellenőrizd a hálózati kapcsolatot.</string>
+    <string name="instruction_enter_key">Másolja be az API-kulcsot:</string>
+    <string name="instruction_register">Regisztráljon a(z) %1$s oldalon, hogy megkapja az API-kulcsot:</string>
+    <string name="note_api_key">Vegye figyelembe, hogy a kulcs aktiválása akár 2 órát is igénybe vehet.</string>
+    <string name="setup_step_n">%1$d lépés</string>
 </resources>

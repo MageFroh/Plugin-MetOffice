@@ -242,3 +242,4 @@ fabric.properties
 
 
 app/release
+.kotlin/sessions

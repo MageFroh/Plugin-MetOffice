@@ -224,7 +224,7 @@ class MetOfficeWeatherProvider : WeatherProvider(
     private fun metGeometryToMetUrl(geometry: MetForecastGeometry): String? {
         if (geometry.coordinates == null) return null
         if (geometry.coordinates.size < 2) return null
-        val geoHash = GeoHash(geometry.coordinates[1], geometry.coordinates[0])
+        val geoHash = GeoHash(geometry.coordinates[1], geometry.coordinates[0], 9)
         return "https://www.metoffice.gov.uk/weather/forecast/${geoHash}"
     }
 
